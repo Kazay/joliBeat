@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>joliBeat</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans|Roboto:400,700" rel="stylesheet"> 
+    <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
+</head>
+<body>
+    <div class='panel'>
+        <nav>
+            <div class='nav-content'>
+                <div class='heading'>
+                    <h1><a href="">joliBeat</a></h1>
+                    <h3><span class="quote">"Shiiieeeeet"</span> - Senator Clay Davis.</h3>
+                </div>
+                <div>
+                    <div class="social-network">
+                        <div class="color-kevin">
+                            <strong>Kevin Czaja</strong>
+                            <a href="" class="fab fa-linkedin fa-2x"></a>
+                            <a href="" class="fab fa-github fa-2x"></a>
+                        
+                        </div> 
+                        <div class="color-valentin">
+                            <strong>Valentin Arnould</strong>
+                            <a href="" class="fab fa-linkedin fa-2x"></a>
+                            <a href="" class="fab fa-github fa-2x"></a>
+                        </div> 
+                    </div>
+                    <div class="searchbar">
+                        <input type="text" id='trackname' name='trackname' placeholder="Search for a track">
+                        <i class="fas fa-search" onclick="getTrackList();"></i>
+                    </div>
+                </div>
+                
+            </div>
+        </nav>
+
+        <div class='content'>
+            <div class='tracklist'>
+                <div class="tracklist-content"></div>
+            </div>
+            <div class="playlist"></div>
+        </div>
+    
+       
+    </div>
+    <script src="main.js"></script>
+</body>
+</html>

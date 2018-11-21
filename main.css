@@ -250,6 +250,29 @@ nav {
         padding-bottom: 4rem;
     }
 
+    .delete-playlist {
+        float: right;
+        padding-top: 1rem;
+        color: rgba(0,0,0,.2);
+    }
+
+        .delete-playlist--text {
+            height: 2em;
+            display: inline-block;
+            text-transform: uppercase;
+            vertical-align: middle;
+            padding-right: 1rem;
+        }
+
+        .delete-playlist:hover {
+            cursor: pointer;
+        }
+
+            .delete-playlist:hover i {
+                color: rgba(0,0,0,.3);
+                
+            }
+
 .accept {
     background-color: #a5dc86;
 }
@@ -284,18 +307,22 @@ nav {
         font-weight: 700;
     }
 
-    .export {
-        font-size: 12px;
-        text-transform: uppercase;
-        text-decoration: none;
-        font-weight: 700;
-        color: whitesmoke;
-        background-color: #a5dc86;
-        padding: .6rem;
-        border-radius: 3px;
-        float: right;
-    }
-
-        .export:hover {
-            background-color: #88b56e;
+        .playlist-title:hover > i {
+            color: rgba(0,0,0,.3);
         }
+
+.export {
+    font-size: 12px;
+    text-transform: uppercase;
+    text-decoration: none;
+    font-weight: 700;
+    color: whitesmoke;
+    background-color: #a5dc86;
+    padding: .6rem;
+    border-radius: 3px;
+    float: right;
+}
+
+    .export:hover {
+        background-color: #88b56e;
+    }

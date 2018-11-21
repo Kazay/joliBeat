@@ -84,7 +84,7 @@ const digit = function countDigit(number) {
 const addToPlaylist = function addTrackToThePlaylist(trackId) {
     //debugger;
     if(document.querySelector('.playlist').innerHTML.length == 0) {
-        let html = `<div class="playlist-content"><span class="playlist-title" onclick="editTitle();">${playlistDefaultTitle}</span>
+        let html = `<div class="playlist-content"><span class="playlist-title" onclick="editTitle();">${playlistDefaultTitle}</span><span class="delete-playlist" onclick="dropPlaylist();"><span class="delete-playlist--text">Drop playlist</span><i class="fas fa-times-circle fa-2x"></i></span>
         <ul class="musicList"></ul><a href="#" class="export">Export</a></div>`;
         document.querySelector('.playlist').innerHTML = html;
         trackListHeader = '<li class="search-header"><div class="track-cover"></div><span class="track-title">TITLE</span><span class="track-artist">ARTIST</span><span class="track-duration">TIME</span></li>';
@@ -126,6 +126,33 @@ const editTitle = function editPlaylistTitle() {
         document.querySelector('.playlist-title').innerHTML = (value !== "")? `<i class="fas fa-edit"></i>${value}` : playlistDefaultTitle;
 
       });
+}
+
+// Delete the current playlist
+const dropPlaylist = function deleteCurrentPlaylist() {
+    swal("You sure you want to drop this playlist ?", {
+        buttons: {
+          no: {
+              text: "Hell no !",
+              className: "cancel",
+              value: false
+            },
+          confirm: {
+            text: "For sure.",
+            className: "accept",
+            value: true
+          }
+      }}).then((value) => {
+          switch(value) {
+              case false:
+                break;
+
+              case true:
+                document.querySelector('.playlist').innerHTML = "";
+                break;
+
+          }
+      });   
 }
 
 const playThisMusic = function PlayTrackFromPlaylist(track) {

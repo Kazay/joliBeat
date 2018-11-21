@@ -10,8 +10,6 @@ track.addEventListener("keydown", function(event) {
 });
 
 function getTrackList() {
-    // Reset the search div
-    document.querySelector('.tracklist').innerHTML = '';
     search(track);
 }
 
@@ -25,6 +23,7 @@ const search = function getTrackListFromDeezer(track) {
         let trackList = "";
         if(list.data.length > 0)
         { 
+            document.querySelector('.tracklist').innerHTML = '';
             trackList += `<div class="tracklist-content"><span class="results-text reset-search"><i class="far fa-times-circle"></i>Search : "${track.value}"</span><ul class="search-results">`;
             trackList += '<li class="search-header"><div class="track-cover"></div><span class="track-title">TITLE</span><span class="track-artist">ARTIST</span><span class="track-duration">TIME</span></li>';
            
@@ -62,8 +61,6 @@ const search = function getTrackListFromDeezer(track) {
         
         track.value = "";
         track.blur();
-
-       
     });
 }
 

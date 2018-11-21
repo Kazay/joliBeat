@@ -11,16 +11,32 @@ body {
     font-weight: 400;
 }
 
+.heading {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+}
+
+    .heading img {
+        width: 72px;
+        height: 72px;
+        position: relative;
+        top: -24px;
+        left: -7px;
+        transform: rotate(-90deg);
+    }
+
 ul {
     padding-left: 0;
 }
 
-h1, h2, h3, h4, h5, h6 {
-    font-family: 'Open Sans', sans-serif;
+h1, h2, h4, h5, h6 {
+    font-family: 'Shadows Into Light', cursive;
     margin: 0;
 }
 
     h1 > a {
+        font-size: 48px;
         color: #2B292E;
         text-decoration: none;
     }
@@ -93,7 +109,6 @@ nav {
                 padding: .4rem 4rem .4rem .4rem;
                 font-size: 10px;
                 width: 110px;
-                text-transform: uppercase;
                 border: 1px solid rgba(0,0,0,.2);
                 border-radius: 3px;
                 transition: .5s ease-in;
@@ -161,16 +176,20 @@ nav {
     .search-results {
         display: flex;
         flex-direction: column;
+        margin-top: 3rem;
     }
 
         .search-track, .search-header {
             display: flex;
             flex-direction: row;
-            margin-bottom: .3rem;
         }
 
-        .search-track {
-            border-top: 1px solid #2B292E;
+        .li-search:nth-child(even) {
+           background-color: #efefef;
+        }
+
+        .li-playlist:nth-child(even) {
+            background-color: #fff;
         }
 
         .search-header {
@@ -228,7 +247,7 @@ nav {
 
     .playlist-content {
         padding-top: 1rem;
-        padding-bottom: 1rem;
+        padding-bottom: 4rem;
     }
 
 .accept {
@@ -248,20 +267,35 @@ nav {
     }
 
 .playlist-title {
-    font-size: 12px;
-    text-transform: uppercase;
-    font-weight: 700;
-    color: whitesmoke;
-    background-color: #5c8ebc;
+    font-size: 32px;
+    font-style: italic;
+    font-family: 'Shadows Into Light', cursive;
     padding: .6rem;
-    border-radius: 3px;
 }
 
     .playlist-title:hover {
-        background-color: #a5dc86;
         cursor: pointer;
     }
 
     .playlist-title > i {
         padding-right: .6rem;
+        font-size: 16px;
+        color: rgba(0,0,0,.2);
+        font-weight: 700;
     }
+
+    .export {
+        font-size: 12px;
+        text-transform: uppercase;
+        text-decoration: none;
+        font-weight: 700;
+        color: whitesmoke;
+        background-color: #a5dc86;
+        padding: .6rem;
+        border-radius: 3px;
+        float: right;
+    }
+
+        .export:hover {
+            background-color: #88b56e;
+        }

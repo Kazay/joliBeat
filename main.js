@@ -1,4 +1,5 @@
 const track = document.querySelector('#trackname');
+const playlistDefaultTitle = '<i class="fas fa-edit"></i>Add a name to your playlist';
 
 // Listener on search input to enable keypress validation
 track.addEventListener("keydown", function(event) {
@@ -29,7 +30,7 @@ const search = function getTrackListFromDeezer(track) {
            
             list.data.forEach(element => {
                 let duration = secToMin(element.duration);
-                trackList += `<li class="search-track" data-id="${element.id}">
+                trackList += `<li class="search-track li-search" data-id="${element.id}">
                 <img class="track-cover" src="${element.album.cover_small}">
                 <span class="track-title">${element.title}</span>
                 <span class="track-artist">${element.artist.name}</span>
@@ -83,8 +84,8 @@ const digit = function countDigit(number) {
 const addToPlaylist = function addTrackToThePlaylist(trackId) {
     //debugger;
     if(document.querySelector('.playlist').innerHTML.length == 0) {
-        let html = `<div class="playlist-content"><span class="playlist-header" onclick="editTitle();"><i class="fas fa-edit"></i>Whoopadadaboo, your custom playlist :</span>
-        <ul class="musicList"></ul></div>`;
+        let html = `<div class="playlist-content"><span class="playlist-title" onclick="editTitle();">${playlistDefaultTitle}</span>
+        <ul class="musicList"></ul><a href="#" class="export">Export</a></div>`;
         document.querySelector('.playlist').innerHTML = html;
         trackListHeader = '<li class="search-header"><div class="track-cover"></div><span class="track-title">TITLE</span><span class="track-artist">ARTIST</span><span class="track-duration">TIME</span></li>';
         document.querySelector('.musicList').innerHTML = trackListHeader;
@@ -97,7 +98,7 @@ const addToPlaylist = function addTrackToThePlaylist(trackId) {
     var duration = li.querySelector('.track-duration').innerHTML;
     var preview = li.querySelector('.track-player > source').getAttribute('src');
     var liNumber = document.querySelector('.musicList').querySelectorAll('li').length + 1;
-    var html = `<li data-id="${trackId}" class="search-track">
+    var html = `<li data-id="${trackId}" class="search-track li-playlist">
     <img class="track-cover" src="${image}">
     <!--<span class="track-number">${liNumber}</span>-->
     <span class="track-title">${title}</span>
@@ -119,10 +120,11 @@ const addToPlaylist = function addTrackToThePlaylist(trackId) {
 
 const editTitle = function editPlaylistTitle() {
     swal("What cool name for your playlist ?", {
-        content: "input",
+        content: "input"
       })
       .then((value) => {
-        
+        document.querySelector('.playlist-title').innerHTML = (value !== "")? `<i class="fas fa-edit"></i>${value}` : playlistDefaultTitle;
+
       });
 }
 
@@ -139,12 +141,12 @@ const removeFromPlaylist = function removeTrackFromPlaylist(trackId) {
         buttons: {
           no: {
               text: "No",
-              className: "accept",
+              className: "cancel",
               value: false
             },
           confirm: {
             text: "Yiss !",
-            className: "cancel",
+            className: "accept",
             value: true
           }
       }}).then((value) => {
@@ -154,7 +156,6 @@ const removeFromPlaylist = function removeTrackFromPlaylist(trackId) {
 
               case true:
                 document.querySelector('.musicList').querySelector('li[data-id="'+ trackId+'"]').remove();
-
                 if(document.querySelector('.musicList').childElementCount === 1) {
                     document.querySelector('.playlist-content').remove();
                 }

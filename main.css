@@ -3,6 +3,14 @@ body {
     margin: 0;
 }
 
+/* RESPONSE OVERLAY */
+.swal-button {
+    background-color: #2064a3;
+    border-radius: 3px;
+    font-size: 10px;
+    font-weight: 400;
+}
+
 ul {
     padding-left: 0;
 }
@@ -50,18 +58,22 @@ nav {
         }
 
             .color-kevin a {
-                color: #f74040;
+                color: #f27474;
                 padding-left: 1rem;
             }
+            
+                .color-kevin a:hover {
+                    color: #dc6a6a;
+                }
 
             .color-valentin a {
-                color: #23db60;
+                color: #a5dc86;
                 padding-left: 1rem;
             }
 
-            .color-kevin a:hover, .color-valentin a:hover {
-                color: #2064a3;
-            }
+                .color-valentin a:hover {
+                    color: #88b56e;
+                }
 
             .social-network strong {
                 font-size: 10px;
@@ -78,18 +90,42 @@ nav {
 
             .searchbar > input {
                 float: right;
-                padding: .4rem;
+                padding: .4rem 4rem .4rem .4rem;
                 font-size: 10px;
-                width: 300px;
+                width: 110px;
                 text-transform: uppercase;
+                border: 1px solid rgba(0,0,0,.2);
+                border-radius: 3px;
+                transition: .5s ease-in;
             }
 
-            .searchbar > i {
+            .searchbar > input:focus {
+                border: 1px solid #2064a3;
+                width: 240px;
+                transition: .5s ease-out;
+            }
+
+
+            .searchbar > i.fa-search {
                 position: relative;
-                right: -337px;
+                right: -315px;
                 top: 5px;
                 cursor: pointer;
+                color: #2B292E;
             }
+
+                .searchbar > input:focus ~ i {
+                    color: #2064a3;
+                }
+
+            .searchbar > i.fa-keyboard {
+                position: relative;
+                right: -305px;
+                top: 5px;
+                opacity: .2;
+                color: #2B292E;
+            }
+
 
 .nav-content, .tracklist-content, .playlist-content {
     width: 1200px;
@@ -98,6 +134,28 @@ nav {
 
 .tracklist {
     margin-bottom: 2rem;
+}
+    .results-text {
+        font-size: 12px;
+        text-transform: uppercase;
+        font-weight: 700;
+        color: whitesmoke;
+        background-color: #5c8ebc;
+        padding: .6rem;
+        border-radius: 3px;
+    }
+
+        .results-text:hover {
+            background-color: #f27474;
+            cursor: pointer;
+        }
+
+        .results-text > i {
+            padding-right: .6rem;
+        }
+
+.swal-text, .swal-footer {
+    text-align: center;
 }
 
     .search-results {
@@ -147,14 +205,22 @@ nav {
             height: 30px;
         }
 
-    .validate {
+    .validate, .delete {
         background-color: #2B292E;
         color: whitesmoke;
         border: none;
         height: 30px;
         width: 30px;
     }
-    
+
+
+    .validate:hover {
+        background-color: #a5dc86;
+    }
+
+    .delete:hover {
+        background-color: #f27474;
+    }
 
 .playlist {
     background-color: #efefef;
@@ -163,4 +229,39 @@ nav {
     .playlist-content {
         padding-top: 1rem;
         padding-bottom: 1rem;
+    }
+
+.accept {
+    background-color: #a5dc86;
+}
+
+    .accept:not([disabled]):hover {
+        background-color: #88b56e;
+    }
+
+.cancel {
+    background-color: #f27474;
+}
+
+    .cancel:not([disabled]):hover {
+        background-color: #dc6a6a;
+    }
+
+.playlist-title {
+    font-size: 12px;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: whitesmoke;
+    background-color: #5c8ebc;
+    padding: .6rem;
+    border-radius: 3px;
+}
+
+    .playlist-title:hover {
+        background-color: #a5dc86;
+        cursor: pointer;
+    }
+
+    .playlist-title > i {
+        padding-right: .6rem;
     }

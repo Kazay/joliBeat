@@ -77,14 +77,19 @@ const secToMin = function convertSecondesToMinutes(duration) {
 const digit = function countDigit(number) {
     let digit = number.toString().length === 1 ? "0" + number : number;
 
-    return digit ;
+    return digit;
 }
 
 const addToPlaylist = function addTrackToThePlaylist(trackId) {
     //debugger;
+    var tracks = [];
+    if(localStorage.length > 0) {
+        var storage = JSON.parse(localStorage.getItem('playlist'));
+        tracks = tracks.concat(storage);
+    }
     if(document.querySelector('.playlist').innerHTML.length == 0) {
-        let html = `<div class="playlist-content"><span class="playlist-header" onclick="editTitle();"><i class="fas fa-edit"></i>Whoopadadaboo, your custom playlist :</span>
-        <ul class="musicList"></ul></div>`;
+        let html = `<div class="playlist-content"><span class="playlist-title" onclick="editTitle();"><i class="fas fa-edit"></i>Add a name to your playlist</span>
+        <ul class="musicList"></ul><button class="PlaylistExport" onclick="exportation()">Exporter</button></div>`;
         document.querySelector('.playlist').innerHTML = html;
         trackListHeader = '<li class="search-header"><div class="track-cover"></div><span class="track-title">TITLE</span><span class="track-artist">ARTIST</span><span class="track-duration">TIME</span></li>';
         document.querySelector('.musicList').innerHTML = trackListHeader;
@@ -114,6 +119,10 @@ const addToPlaylist = function addTrackToThePlaylist(trackId) {
     //évite les doublons
     if(document.querySelector('.musicList').querySelector('li[data-id="'+ trackId+'"]') == null) {
         document.querySelector('.musicList').innerHTML += html;
+        tracks.push(document.querySelector('.musicList').querySelector('li[data-id="'+ trackId+'"]').getAttribute('data-id'));
+        //debugger;
+        console.log(tracks);
+        localStorage.setItem('playlist', JSON.stringify(tracks));        
     }
 }
 
@@ -153,8 +162,14 @@ const removeFromPlaylist = function removeTrackFromPlaylist(trackId) {
                 break;
 
               case true:
+                //debugger;
+                //la suppression des éléments dans le localStorage a encore quelques bugs
+                var tracks = [];
+                var storage = JSON.parse(localStorage.getItem('playlist'));
+                tracks = tracks.concat(storage);
+                tracks.indexOf(JSON.stringify(trackId)) != -1 ? tracks.splice(tracks.indexOf(trackId),1) : "";
+                localStorage.setItem('playlist', JSON.stringify(tracks));
                 document.querySelector('.musicList').querySelector('li[data-id="'+ trackId+'"]').remove();
-
                 if(document.querySelector('.musicList').childElementCount === 1) {
                     document.querySelector('.playlist-content').remove();
                 }
@@ -163,8 +178,11 @@ const removeFromPlaylist = function removeTrackFromPlaylist(trackId) {
           }
       });
     }
-
+//ne fonctionne pas encore, remplacer la variable text
 const exportation = function exportPlaylistToFile() {
+    debugger;
+    //new Blob([JSON.stringify(variable, null, 2)], {type : 'application/json'});
     var blob = new Blob([text], {type: "text/plain;charset=utf-8"});
-   saveAs(blob, "filename.txt");
+    debugger;
+   saveAs(blob, "filename.txt"); //fichier.json
 }

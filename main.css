@@ -1,6 +1,13 @@
 body {
     font-family: 'Roboto', sans-serif;
     margin: 0;
+    background-color: #efefef;
+}
+
+.panel {
+    padding: 1rem;
+    margin: 3rem 3rem 0;
+    background-color: #fff;
 }
 
 /* RESPONSE OVERLAY */
@@ -11,16 +18,61 @@ body {
     font-weight: 400;
 }
 
+.swal-button:not([disabled]):hover {
+    background-color:#1b5286;
+}
+
+.swal-icon--error__line {
+    background-color: #f74040;
+}
+
+.swal-icon--error {
+    border-color: #f74040;
+}
+
+.swal-title {
+    font-family: 'Shadows Into Light', cursive;
+    font-size: 48px;
+}
+
+.heading {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+}
+
+    .heading img {
+        width: 72px;
+        height: 72px;
+        position: relative;
+        top: -24px;
+        left: -7px;
+        transform: rotate(-90deg);
+        transition: 1s ease-in;
+    }
+
+    nav:hover .heading img {
+        width: 72px;
+        height: 72px;
+        position: relative;
+        top: -24px;
+        left: -7px;
+        transform: rotate(-40deg);
+        transition: 1s ease-in-out;
+        animation: pulse 5s infinite;
+    }
+
 ul {
     padding-left: 0;
 }
 
-h1, h2, h3, h4, h5, h6 {
-    font-family: 'Open Sans', sans-serif;
+h1, h2, h4, h5, h6 {
+    font-family: 'Shadows Into Light', cursive;
     margin: 0;
 }
 
     h1 > a {
+        font-size: 48px;
         color: #2B292E;
         text-decoration: none;
     }
@@ -57,22 +109,17 @@ nav {
             border-bottom: 1px solid #2064a3;
         }
 
-            .color-kevin a {
-                color: #f27474;
+            .color-kevin a, .color-valentin a {
+                color: #2B292E;
                 padding-left: 1rem;
             }
             
                 .color-kevin a:hover {
-                    color: #dc6a6a;
+                    color: #f74040;
                 }
 
-            .color-valentin a {
-                color: #a5dc86;
-                padding-left: 1rem;
-            }
-
                 .color-valentin a:hover {
-                    color: #88b56e;
+                    color: #23db60;
                 }
 
             .social-network strong {
@@ -93,13 +140,12 @@ nav {
                 padding: .4rem 4rem .4rem .4rem;
                 font-size: 10px;
                 width: 110px;
-                text-transform: uppercase;
                 border: 1px solid rgba(0,0,0,.2);
                 border-radius: 3px;
                 transition: .5s ease-in;
             }
 
-            .searchbar > input:focus {
+            .searchbar > input:focus, .searchbar > input:hover {
                 border: 1px solid #2064a3;
                 width: 240px;
                 transition: .5s ease-out;
@@ -114,7 +160,7 @@ nav {
                 color: #2B292E;
             }
 
-                .searchbar > input:focus ~ i {
+                .searchbar > input:focus ~ i, .searchbar > input:hover ~ i {
                     color: #2064a3;
                 }
 
@@ -146,7 +192,7 @@ nav {
     }
 
         .results-text:hover {
-            background-color: #f27474;
+            background-color: #f74040;
             cursor: pointer;
         }
 
@@ -161,16 +207,35 @@ nav {
     .search-results {
         display: flex;
         flex-direction: column;
+        margin-top: 3rem;
     }
 
         .search-track, .search-header {
             display: flex;
             flex-direction: row;
-            margin-bottom: .3rem;
         }
 
-        .search-track {
-            border-top: 1px solid #2B292E;
+        .li-search:nth-child(even) {
+           background-color: #efefef;
+        }
+
+        .li-search:nth-child(odd) {
+            background-color: #fff;
+         }
+
+        .li-search:nth-child(even):hover,
+        .li-search:nth-child(odd):hover,
+        .li-playlist:nth-child(even):hover,
+        .li-playlist:nth-child(odd):hover {
+            filter: brightness(90%);
+        }
+
+        .li-playlist:nth-child(even) {
+            background-color: #fff;
+        }
+
+        .li-playlist:nth-child(odd) {
+            background-color: #efefef;
         }
 
         .search-header {
@@ -206,20 +271,26 @@ nav {
         }
 
     .validate, .delete {
-        background-color: #2B292E;
         color: whitesmoke;
         border: none;
         height: 30px;
         width: 30px;
     }
 
+    .validate {
+        background-color: #23db60
+    }
+
+    .delete {
+        background-color: #f74040;
+    }
 
     .validate:hover {
-        background-color: #a5dc86;
+        background-color: #1db44f;
     }
 
     .delete:hover {
-        background-color: #f27474;
+        background-color: #cb3535;
     }
 
 .playlist {
@@ -228,40 +299,82 @@ nav {
 
     .playlist-content {
         padding-top: 1rem;
-        padding-bottom: 1rem;
+        padding-bottom: 4rem;
     }
 
+    .delete-playlist {
+        float: right;
+        padding-top: 1rem;
+        color: rgba(0,0,0,.2);
+    }
+
+        .delete-playlist--text {
+            height: 2em;
+            display: inline-block;
+            text-transform: uppercase;
+            vertical-align: middle;
+            padding-right: 1rem;
+        }
+
+        .delete-playlist:hover {
+            cursor: pointer;
+        }
+
+            .delete-playlist:hover i {
+                color: rgba(0,0,0,.3);
+                
+            }
+
 .accept {
-    background-color: #a5dc86;
+    background-color: #23db60;
 }
 
     .accept:not([disabled]):hover {
-        background-color: #88b56e;
+        background-color: #1db44f;
     }
 
 .cancel {
-    background-color: #f27474;
+    background-color: #f74040;
 }
 
     .cancel:not([disabled]):hover {
-        background-color: #dc6a6a;
+        background-color: #cb3535;
     }
 
 .playlist-title {
-    font-size: 12px;
-    text-transform: uppercase;
-    font-weight: 700;
-    color: whitesmoke;
-    background-color: #5c8ebc;
+    font-size: 32px;
+    font-style: italic;
+    font-family: 'Shadows Into Light', cursive;
     padding: .6rem;
-    border-radius: 3px;
 }
 
     .playlist-title:hover {
-        background-color: #a5dc86;
         cursor: pointer;
     }
 
     .playlist-title > i {
         padding-right: .6rem;
+        font-size: 16px;
+        color: rgba(0,0,0,.2);
+        font-weight: 700;
+    }
+
+        .playlist-title:hover > i {
+            color: rgba(0,0,0,.3);
+        }
+
+.export {
+    font-size: 12px;
+    text-transform: uppercase;
+    text-decoration: none;
+    font-weight: 700;
+    color: whitesmoke;
+    background-color: #2064a3;    
+    padding: .6rem;
+    border-radius: 3px;
+    float: right;
+}
+
+    .export:hover {
+        background-color: #1b5286;
     }

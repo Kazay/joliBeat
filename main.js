@@ -1,4 +1,5 @@
 const track = document.querySelector('#trackname');
+const playlistDefaultTitle = '<i class="fas fa-edit"></i>Add a name to your playlist';
 
 // Listener on search input to enable keypress validation
 track.addEventListener("keydown", function(event) {
@@ -9,8 +10,6 @@ track.addEventListener("keydown", function(event) {
 });
 
 function getTrackList() {
-    // Reset the search div
-    document.querySelector('.tracklist').innerHTML = '';
     search(track);
 }
 
@@ -24,12 +23,13 @@ const search = function getTrackListFromDeezer(track) {
         let trackList = "";
         if(list.data.length > 0)
         { 
+            document.querySelector('.tracklist').innerHTML = '';
             trackList += `<div class="tracklist-content"><span class="results-text reset-search"><i class="far fa-times-circle"></i>Search : "${track.value}"</span><ul class="search-results">`;
             trackList += '<li class="search-header"><div class="track-cover"></div><span class="track-title">TITLE</span><span class="track-artist">ARTIST</span><span class="track-duration">TIME</span></li>';
            
             list.data.forEach(element => {
                 let duration = secToMin(element.duration);
-                trackList += `<li class="search-track" data-id="${element.id}">
+                trackList += `<li class="search-track li-search" data-id="${element.id}">
                 <img class="track-cover" src="${element.album.cover_small}">
                 <span class="track-title">${element.title}</span>
                 <span class="track-artist">${element.artist.name}</span>
@@ -61,8 +61,6 @@ const search = function getTrackListFromDeezer(track) {
         
         track.value = "";
         track.blur();
-
-       
     });
 }
 
@@ -88,8 +86,8 @@ const addToPlaylist = function addTrackToThePlaylist(trackId) {
         tracks = tracks.concat(storage);
     }
     if(document.querySelector('.playlist').innerHTML.length == 0) {
-        let html = `<div class="playlist-content"><span class="playlist-title" onclick="editTitle();"><i class="fas fa-edit"></i>Add a name to your playlist</span>
-        <ul class="musicList"></ul><button class="PlaylistExport" onclick="exportation()">Exporter</button></div>`;
+        let html = `<div class="playlist-content"><span class="playlist-title" onclick="editTitle();">${playlistDefaultTitle}</span><span class="delete-playlist" onclick="dropPlaylist();"><span class="delete-playlist--text">Drop playlist</span><i class="fas fa-times-circle fa-2x"></i></span>
+        <ul class="musicList"></ul><a href="#" class="export">Export</a></div>`;
         document.querySelector('.playlist').innerHTML = html;
         trackListHeader = '<li class="search-header"><div class="track-cover"></div><span class="track-title">TITLE</span><span class="track-artist">ARTIST</span><span class="track-duration">TIME</span></li>';
         document.querySelector('.musicList').innerHTML = trackListHeader;
@@ -102,7 +100,7 @@ const addToPlaylist = function addTrackToThePlaylist(trackId) {
     var duration = li.querySelector('.track-duration').innerHTML;
     var preview = li.querySelector('.track-player > source').getAttribute('src');
     var liNumber = document.querySelector('.musicList').querySelectorAll('li').length + 1;
-    var html = `<li data-id="${trackId}" class="search-track">
+    var html = `<li data-id="${trackId}" class="search-track li-playlist">
     <img class="track-cover" src="${image}">
     <!--<span class="track-number">${liNumber}</span>-->
     <span class="track-title">${title}</span>
@@ -128,11 +126,39 @@ const addToPlaylist = function addTrackToThePlaylist(trackId) {
 
 const editTitle = function editPlaylistTitle() {
     swal("What cool name for your playlist ?", {
-        content: "input",
+        content: "input"
       })
       .then((value) => {
-        
+        document.querySelector('.playlist-title').innerHTML = (value !== "")? `<i class="fas fa-edit"></i>${value}` : playlistDefaultTitle;
+
       });
+}
+
+// Delete the current playlist
+const dropPlaylist = function deleteCurrentPlaylist() {
+    swal("You sure you want to drop this playlist ?", {
+        buttons: {
+          no: {
+              text: "Hell no !",
+              className: "cancel",
+              value: false
+            },
+          confirm: {
+            text: "For sure.",
+            className: "accept",
+            value: true
+          }
+      }}).then((value) => {
+          switch(value) {
+              case false:
+                break;
+
+              case true:
+                document.querySelector('.playlist').innerHTML = "";
+                break;
+
+          }
+      });   
 }
 
 const playThisMusic = function PlayTrackFromPlaylist(track) {
@@ -148,12 +174,12 @@ const removeFromPlaylist = function removeTrackFromPlaylist(trackId) {
         buttons: {
           no: {
               text: "No",
-              className: "accept",
+              className: "cancel",
               value: false
             },
           confirm: {
             text: "Yiss !",
-            className: "cancel",
+            className: "accept",
             value: true
           }
       }}).then((value) => {

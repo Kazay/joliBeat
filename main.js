@@ -1,6 +1,7 @@
 const track = document.querySelector('#trackname');
-const playlistDefaultTitle = '<i class="fas fa-edit"></i>Add a name to your playlist';
-
+var localTitle = localStorage.getItem('playlistTitle');
+const playlistDefaultTitle = '<i class="fas fa-edit"></i>' + localTitle != null && localTitle != "null" ? localTitle : 'Add a name to your playlist';
+//Get localStorage playlist to the site
 // Listener on search input to enable keypress validation
 track.addEventListener("keydown", function(event) {
     if (event.key === "Enter") {
@@ -78,12 +79,56 @@ const digit = function countDigit(number) {
     return digit;
 }
 
+const startupPlaylist = function localStorageToPlaylist() {
+    var playlist = JSON.parse(localStorage.getItem('deezerPlaylist'));
+    if(document.querySelector('.playlist').innerHTML.length == 0) {
+        let html = `<div class="playlist-content"><span class="playlist-title" onclick="editTitle();">${playlistDefaultTitle}</span>
+        <span class="delete-playlist" onclick="dropPlaylist();"><span class="delete-playlist--text">Drop playlist</span>
+        <i class="fas fa-times-circle fa-2x"></i></span>
+        <ul class="musicList"></ul><a href="#" class="export">Export</a></div>`;
+
+        document.querySelector('.playlist').innerHTML = html;
+        trackListHeader = `<li class="search-header"><div class="track-cover"></div><span class="track-title">TITLE</span>
+        <span class="track-artist">ARTIST</span><span class="track-duration">TIME</span></li>`;
+
+        document.querySelector('.musicList').innerHTML = trackListHeader;
+    }
+    playlist.forEach(track => {
+        var liNumber = document.querySelector('.musicList').querySelectorAll('li').length + 1;
+        var html = `<li data-id="${track.id}" class="search-track li-playlist">
+        <img class="track-cover" src="${track.imageLink}">
+        <!--<span class="track-number">${liNumber}</span>-->
+        <span class="track-title">${track.track}</span>
+        <span class="track-artist">${track.artist}</span>
+        <span class="track-duration">${track.duration}</span>
+        <audio class="track-player" controls="controls">
+        <source src="${track.previewLink}" type="audio/mp3" />
+        Votre navigateur n'est pas compatible
+        </audio>
+        <!--<span class="playButton" onclick="playThisMusic">Play</span>-->
+        <button class="delete" onclick="removeFromPlaylist(${track.id})";><i class="fas fa-trash-alt"></i></button>
+        </li>`;
+        
+        //évite les doublons
+        if(document.querySelector('.musicList').querySelector('li[data-id="'+ track.id+'"]') == null) {
+            document.querySelector('.musicList').innerHTML += html;
+            //debugger;
+            //console.log(tracks);
+        }
+    });
+}
+if(localStorage.getItem('deezerPlaylist') != null && localStorage.getItem('deezerPlaylist').length > 0) {
+    startupPlaylist();
+}
+
+
 const addToPlaylist = function addTrackToThePlaylist(trackId) {
     //debugger;
     var tracks = [];
-    if(localStorage.length > 0) {
-        var storage = JSON.parse(localStorage.getItem('playlist'));
+    if(localStorage.getItem('deezerPlaylist') != null && localStorage.getItem('deezerPlaylist').length > 0) {
+        var storage = JSON.parse(localStorage.getItem('deezerPlaylist'));
         tracks = tracks.concat(storage);
+        //debugger;
     }
     if(document.querySelector('.playlist').innerHTML.length == 0) {
         let html = `<div class="playlist-content"><span class="playlist-title" onclick="editTitle();">${playlistDefaultTitle}</span><span class="delete-playlist" onclick="dropPlaylist();"><span class="delete-playlist--text">Drop playlist</span><i class="fas fa-times-circle fa-2x"></i></span>
@@ -117,10 +162,18 @@ const addToPlaylist = function addTrackToThePlaylist(trackId) {
     //évite les doublons
     if(document.querySelector('.musicList').querySelector('li[data-id="'+ trackId+'"]') == null) {
         document.querySelector('.musicList').innerHTML += html;
-        tracks.push(document.querySelector('.musicList').querySelector('li[data-id="'+ trackId+'"]').getAttribute('data-id'));
+        var lidata = document.querySelector('.musicList').querySelector('li[data-id="'+ trackId+'"]');
+        var trackAdd = {
+            "id": trackId,
+            "imageLink": image,
+            "track": title,
+            "artist": artist,
+            "duration": duration,
+            "previewLink": preview};
+        tracks.push(trackAdd);
         //debugger;
-        console.log(tracks);
-        localStorage.setItem('playlist', JSON.stringify(tracks));        
+        //console.log(tracks);
+        localStorage.setItem('deezerPlaylist', JSON.stringify(tracks));        
     }
 }
 
@@ -129,8 +182,12 @@ const editTitle = function editPlaylistTitle() {
         content: "input"
       })
       .then((value) => {
-        document.querySelector('.playlist-title').innerHTML = (value !== "")? `<i class="fas fa-edit"></i>${value}` : playlistDefaultTitle;
-
+          if(value !== "") {
+            document.querySelector('.playlist-title').innerHTML = `<i class="fas fa-edit"></i>${value}`;
+            localStorage.setItem('playlistTitle',value);
+          } else {
+            document.querySelector('.playlist-title').innerHTML = playlistDefaultTitle;
+          }
       });
 }
 
@@ -155,6 +212,7 @@ const dropPlaylist = function deleteCurrentPlaylist() {
 
               case true:
                 document.querySelector('.playlist').innerHTML = "";
+                localStorage.removeItem('deezerPlaylist');
                 break;
 
           }
@@ -191,10 +249,19 @@ const removeFromPlaylist = function removeTrackFromPlaylist(trackId) {
                 //debugger;
                 //la suppression des éléments dans le localStorage a encore quelques bugs
                 var tracks = [];
-                var storage = JSON.parse(localStorage.getItem('playlist'));
+                var storage = JSON.parse(localStorage.getItem('deezerPlaylist'));
                 tracks = tracks.concat(storage);
-                tracks.indexOf(JSON.stringify(trackId)) != -1 ? tracks.splice(tracks.indexOf(trackId),1) : "";
-                localStorage.setItem('playlist', JSON.stringify(tracks));
+                var i = -1; var ii = i;
+                tracks.forEach(trackToRemove => {
+                    ii++;
+                    if(trackToRemove.id === trackId) {
+                        i = ii;
+                    }
+
+                });
+                //debugger;
+                i != -1 ? tracks.splice(i,1) : "";
+                tracks.length == 0 ? localStorage.removeItem('deezerPlaylist') : localStorage.setItem('deezerPlaylist', JSON.stringify(tracks));;
                 document.querySelector('.musicList').querySelector('li[data-id="'+ trackId+'"]').remove();
                 if(document.querySelector('.musicList').childElementCount === 1) {
                     document.querySelector('.playlist-content').remove();

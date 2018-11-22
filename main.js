@@ -113,6 +113,15 @@ const addToPlaylist = function addTrackToThePlaylist(trackId) {
     if(document.querySelector('.musicList').querySelector('li[data-id="'+ trackId+'"]') == null) {
         document.querySelector('.musicList').innerHTML += html;
     }
+    else
+    {
+        swal({
+            title: "Yikes !",
+            text: `"${title}" is already in your playlist...`,
+            icon: "error",
+            button: "Alright, let's try something else!",
+        });
+    }
 }
 
 const editTitle = function editPlaylistTitle() {
